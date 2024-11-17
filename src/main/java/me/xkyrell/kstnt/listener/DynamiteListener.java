@@ -54,13 +54,16 @@ public class DynamiteListener implements Listener {
                 .map(resp -> (Dynamite) resp)
                 .map(Dynamite::getAttributes)
                 .filter(Objects::nonNull)
-                .forEach(attributes -> handleAttribute(attributes, clazz, handler));
+                .forEach(attributes -> handleAttribute(
+                        attributes, clazz, matches, handler
+                ));
     }
 
-    private <T extends DynamiteLogic> void handleAttribute(List<Attribute<?>> attributes, Class<T> clazz, Consumer<T> handler) {
+    private <T extends DynamiteLogic> void handleAttribute(List<Attribute<?>> attributes, Class<T> clazz, Predicate<T> matches, Consumer<T> handler) {
         attributes.stream()
                 .filter(clazz::isInstance)
                 .map(clazz::cast)
+                .filter(matches)
                 .forEach(handler);
     }
 }
