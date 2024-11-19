@@ -1,9 +1,8 @@
 package me.xkyrell.kstnt.dynamite.logic.responsible;
 
-import me.xkyrell.kstnt.dynamite.logic.DynamiteLogic;
 import org.bukkit.event.entity.ExplosionPrimeEvent;
 
-public interface PreExplosionResponsible extends DynamiteLogic {
+public interface PreExplosionResponsible extends EntityMatchResponsible {
 
     void onPreExplosion(ExplosionPrimeEvent event);
 
