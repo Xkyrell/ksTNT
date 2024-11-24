@@ -34,13 +34,13 @@ public class SimpleDynamite extends AbstractDynamite implements BlockLogic {
             return;
         }
 
+        event.setDropItems(false);
+        container.remove(getKeyByBlock(block));
+
         GameMode gameMode = event.getPlayer().getGameMode();
         if (!gameMode.equals(GameMode.SURVIVAL)) {
             return;
         }
-
-        event.setDropItems(false);
-        container.remove(getKeyByBlock(block));
 
         Location center = block.getLocation().toCenterLocation();
         block.getWorld().dropItem(center, getIcon().compose());
