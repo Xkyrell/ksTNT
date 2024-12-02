@@ -16,6 +16,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
+
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +27,7 @@ public class GeneralConfig extends Config {
     private final DynamiteService dynamiteService;
     private final AttributeResolver attributeResolver;
 
+    @Inject
     public GeneralConfig(Plugin plugin, DynamiteService dynamiteService, AttributeResolver attributeResolver) {
         super(plugin, "config");
 

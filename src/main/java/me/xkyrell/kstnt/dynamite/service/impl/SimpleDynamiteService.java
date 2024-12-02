@@ -1,6 +1,7 @@
 package me.xkyrell.kstnt.dynamite.service.impl;
 
 import com.google.common.base.Preconditions;
+import dagger.Reusable;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+@Reusable
 @RequiredArgsConstructor(onConstructor_ = @Inject)
 public class SimpleDynamiteService implements DynamiteService {
 

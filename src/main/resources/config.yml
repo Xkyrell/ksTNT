@@ -1,0 +1,8 @@
+dynamites:
+  test:
+    icon:
+      name: '&b&lCustom TNT'
+      lore:
+        - '&etest lore'
+      glow: true
+    attributes: []
