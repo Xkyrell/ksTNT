@@ -1,3 +1,13 @@
+# Custom dynamites configuration
+# Each dynamite can have unique attributes defined below:
+#
+# Attributes:
+# - radius: The explosion radius (default: 4)
+# - yield: The number of blocks returned after the explosion (default: 1)
+# - aftermath: The post-explosion effects (customizable, no default value)
+# - fuse: The time in seconds before the dynamite explodes after ignition (default: 8)
+#
+
 dynamites:
   test:
     icon:
@@ -5,4 +15,6 @@ dynamites:
       lore:
         - '&etest lore'
       glow: true
-    attributes: []
+    attributes:
+      aftermath: FIRE
+      radius: 6.5
