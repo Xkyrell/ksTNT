@@ -22,8 +22,10 @@ dependencies {
     implementation("com.google.dagger:dagger:2.48")
     annotationProcessor("com.google.dagger:dagger-compiler:2.48")
 
+    testImplementation("com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT")
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
+    testImplementation("org.mockito:mockito-core:4.8.0")
 }
 
 java {
