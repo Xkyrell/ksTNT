@@ -2,19 +2,32 @@
 # Each dynamite can have unique attributes defined below:
 #
 # Attributes:
-# - radius: The explosion radius (default: 4)
-# - yield: The number of blocks returned after the explosion (default: 1)
-# - aftermath: The post-explosion effects (customizable, no default value)
-# - fuse: The time in seconds before the dynamite explodes after ignition (default: 8)
+# - radius: The explosion radius (default: 4.0)
+# - yield: The number of blocks returned after the explosion (default: 1.0)
+# - aftermath: Determines the post-explosion effect. Possible values:
+#     - FIRE: Sets fire only in the area within the explosion radius.
+#     - FIRE_AREA: Sets fire to everything in the explosion radius, including players.
+# - fuse: The time in seconds before the dynamite explodes after ignition (default: 4)
 #
 
 dynamites:
-  test:
+  inferno:
+    # Icon configuration
     icon:
-      name: '&b&lCustom TNT'
+      name: '&6&lInferno TNT'
       lore:
-        - '&etest lore'
+        - '&7Ignites the surroundings in a fiery blaze!'
       glow: true
+    # List of abilities
     attributes:
       aftermath: FIRE
       radius: 6.5
+  oblivion:
+    icon:
+      name: '&5&lOblivion TNT'
+      lore:
+        - '&7Leaves no drop behind—pure devastation.'
+      glow: false
+    attributes:
+      yield: 0.0
+      fuse: 1
