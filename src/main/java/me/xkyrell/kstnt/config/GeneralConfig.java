@@ -48,15 +48,11 @@ public class GeneralConfig extends Config {
             return;
         }
 
+        unregisterDynamites();
         for (String key : dynamitesSection.getKeys(false)) {
             ConfigurationSection dynamiteSection = dynamitesSection.getConfigurationSection(key);
             if (dynamiteSection == null) {
                 continue;
-            }
-
-            Optional<Dynamite> dynamiteOptional = dynamiteService.getResolver().resolve(key);
-            if (dynamiteOptional.isPresent()) {
-                dynamiteService.unregister(key);
             }
 
             DynamiteIcon icon = loadIcon(dynamiteSection.getConfigurationSection("icon"), key);
@@ -65,6 +61,13 @@ public class GeneralConfig extends Config {
             Dynamite dynamite = new SimpleDynamite(key, icon, attributes);
             dynamiteService.register(key, dynamite);
         }
+    }
+
+    private void unregisterDynamites() {
+        dynamiteService.getResolver().getDynamites().stream()
+                .map(Dynamite::getName)
+                .toList()
+                .forEach(dynamiteService::unregister);
     }
 
     private DynamiteIcon loadIcon(@NonNull ConfigurationSection section, String key) {
