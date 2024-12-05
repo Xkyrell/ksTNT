@@ -4,6 +4,7 @@ import me.xkyrell.kstnt.command.AbstractSubCommand;
 import me.xkyrell.kstnt.config.LanguageConfig;
 import me.xkyrell.kstnt.dynamite.Dynamite;
 import me.xkyrell.kstnt.dynamite.service.DynamiteService;
+import net.kyori.adventure.text.Component;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -38,7 +39,10 @@ public class GiveSubCommand extends AbstractSubCommand {
 
         Optional<Dynamite> dynamiteOptional = dynamiteService.getResolver().resolve(args[2]);
         if (dynamiteOptional.isEmpty()) {
-            sender.sendMessage(language.getPrefixedMsg("unknown-tnt"));
+            Component unknownTNT = language.getPrefixedMsg("unknown-tnt");
+            sender.sendMessage(unknownTNT.replaceText(builder -> {
+                builder.matchLiteral("{tnt-type}").replacement(args[2]);
+            }));
             return true;
         }
 
@@ -46,10 +50,12 @@ public class GiveSubCommand extends AbstractSubCommand {
         ItemStack itemStack = dynamite.getIcon().compose();
         target.getInventory().addItem(itemStack);
 
+        String amount = String.valueOf(itemStack.getAmount());
         Map<String, String> placeholders = Map.of(
-                "{receiver}", args[1],
+                "{receiver}", target.getName(),
                 "{sender}", sender.getName(),
-                "{tnt-type}", args[2]
+                "{tnt-type}", args[2],
+                "{amount}", amount
         );
 
         sender.sendMessage(language.getPrefixedMsg("give-tnt", placeholders));
