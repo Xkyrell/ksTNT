@@ -9,6 +9,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -53,6 +55,27 @@ public class GiveSubCommand extends AbstractSubCommand {
         sender.sendMessage(language.getPrefixedMsg("give-tnt", placeholders));
         target.sendMessage(language.getPrefixedMsg("take-tnt", placeholders));
         return false;
+    }
+
+    @Override
+    public @NotNull List<String> tabComplete(@NotNull CommandSender sender, @NotNull String label, @NotNull String[] args) throws IllegalArgumentException {
+        return TabCompleter.create()
+                .from(1)
+                .supply(getOnlinePlayers())
+                .supply(getDynamiteNames())
+                .toSuggestions(args);
+    }
+
+    private List<String> getOnlinePlayers() {
+        return plugin.getServer().getOnlinePlayers().stream()
+                .map(Player::getName)
+                .toList();
+    }
+
+    private List<String> getDynamiteNames() {
+        return dynamiteService.getResolver().getDynamites().stream()
+                .map(Dynamite::getName)
+                .toList();
     }
 
     @Override
