@@ -10,7 +10,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -22,7 +21,7 @@ public class GiveSubCommand extends AbstractSubCommand {
     private final Plugin plugin;
 
     GiveSubCommand(DynamiteService dynamiteService, LanguageConfig language, Plugin plugin) {
-        super("give", 3);
+        super("give", 4);
 
         this.dynamiteService = dynamiteService;
         this.language = language;
@@ -46,21 +45,36 @@ public class GiveSubCommand extends AbstractSubCommand {
             return true;
         }
 
+        Optional<Integer> amountOptional = safeParseAmount(args[3]);
+        if (amountOptional.isEmpty()) {
+            sender.sendMessage(language.getPrefixedMsg("not-integer"));
+            return true;
+        }
+
         Dynamite dynamite = dynamiteOptional.get();
         ItemStack itemStack = dynamite.getIcon().compose();
+        itemStack.setAmount(amountOptional.get());
         target.getInventory().addItem(itemStack);
 
-        String amount = String.valueOf(itemStack.getAmount());
         Map<String, String> placeholders = Map.of(
                 "{receiver}", target.getName(),
                 "{sender}", sender.getName(),
                 "{tnt-type}", args[2],
-                "{amount}", amount
+                "{amount}", args[3]
         );
 
         sender.sendMessage(language.getPrefixedMsg("give-tnt", placeholders));
         target.sendMessage(language.getPrefixedMsg("take-tnt", placeholders));
         return false;
+    }
+
+    private Optional<Integer> safeParseAmount(String amount) {
+        try {
+            return Optional.of(Integer.parseInt(amount));
+        }
+        catch (NumberFormatException ex) {
+            return Optional.empty();
+        }
     }
 
     @Override
@@ -86,6 +100,6 @@ public class GiveSubCommand extends AbstractSubCommand {
 
     @Override
     public @NotNull String getUsage() {
-        return "give <player> <tnt-type>";
+        return "give <player> <tnt-type> <amount>";
     }
 }
